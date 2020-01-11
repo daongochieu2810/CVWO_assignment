@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  urgency_point: 1
+  deadline: MyString
+  time_left: MyString
+  done: false
+
+two:
+  title: MyString
+  urgency_point: 1
+  deadline: MyString
+  time_left: MyString
+  done: false
