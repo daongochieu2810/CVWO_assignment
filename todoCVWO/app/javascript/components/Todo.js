@@ -11,7 +11,8 @@ export default class Todo extends React.Component{
                 details: "",
                 urgency_point: 0,
                 deadline: "",
-                done: false
+                done: false,
+                tags: []
             }
         }
         this.deleteTodo = this.deleteTodo.bind(this)
@@ -96,6 +97,10 @@ export default class Todo extends React.Component{
                 <h5 className="mb-2"> Deadline </h5>
                 {date} 
             </div>
+            <div className="col-sm-12 col-lg-7">
+              <h5 className="mb-2">Tags</h5>
+              {todo.tags.map((tag,index) => index!==todo.tags.length-1 ? tag + "," : tag)}
+            </div>
              <div className="col-sm-12 col-lg-7">
                 <h5 className="mb-2"> Done </h5>
                 {todo.done ? "Done":"Not Done"} 
@@ -108,6 +113,7 @@ export default class Todo extends React.Component{
                 }}
               />
             </div>
+            
             <div className="col-sm-12 col-lg-2">
               <button type="button" className="btn btn-danger" onClick={this.deleteTodo}>
                 Delete Todo

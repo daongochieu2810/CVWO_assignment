@@ -2,17 +2,47 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Background from './background.png';
 import * as moment from 'moment';
+
 export default class Todos extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             todos: [],
+            filtered: []
         }
         this.clearList = this.clearList.bind(this)
         this.checkDone = this.checkDone.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
         this.getCurrentDate=this.getCurrentDate.bind(this)
-       
+        this.handleSearch=this.handleSearch.bind(this)
+        
+    }
+    handleSearch(e) {
+      var search = e.target.value;
+      var current = this.state.todos;
+      let newList;
+      if(search!=="" && search!==null) {
+      
+        newList = current.filter(item => {
+        for(var i = 0; i < item.tags.length;i++)
+        {
+        const toBeSearched = item.tags[i].toLowerCase();
+        console.log(toBeSearched);
+        const filter = search.toLowerCase();
+        if(toBeSearched.includes(filter)) return true;
+        else if(i===item.tags.length-1) return false;
+        
+        }
+        })
+      }
+      else {
+        newList = current;
+
+      }
+      this.setState({
+        filtered: newList
+      })
+    
     }
     getCurrentDate(separator='-'){
         let newDate = new Date()
@@ -106,15 +136,21 @@ export default class Todos extends React.Component {
                 }
                 throw new Error("Network response was not ok")
             })
-            .then(response=> this.setState({todos: response}))
+            .then(response=> this.setState({
+              todos: response,
+              filtered: response
+              }))
             .catch(()=>this.props.history.push("/"))
+     
            
-    }
- 
-     render() {
-  
-    const { todos } = this.state;
-    const allTodos = todos.map((todo, index) => {
+    }    
+    render() {
+   
+    const todos  = this.state.todos;
+    const filtered = this.state.filtered;
+    
+    
+    const allTodos = filtered.map((todo, index) => {
         var date = moment(todo.deadline).format("HH:MM DD-MM-YYYY")
         var createTime = moment(todo.created_at).format("HH:MM DD-MM-YYYY")
         let now = this.getCurrentDate()
@@ -123,7 +159,7 @@ export default class Todos extends React.Component {
         var d = moment.duration(ms);
         
         var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-        let hoursDiff = d.asHours()
+        let hoursDiff = -(d.asHours())
         
         let daysLeft = Math.floor(hoursDiff/24)
         console.log(daysLeft)
@@ -145,6 +181,7 @@ export default class Todos extends React.Component {
             <h6 className="card-text">Urgency Point: {todo.urgency_point}</h6>
             <h6 className="card-text">Time created: {createTime}</h6>
             <h6 className="card-text">Time left: {daysLeft} days and {hoursLeft} hours left</h6>
+            <h6 className="card-text">Tags: {todo.tags.map((tag,index) =><span className="badge badge-info ml-2">{tag}</span>)}</h6>
           
             <div className="custom-control custom-checkbox">
               <input  
@@ -191,6 +228,8 @@ export default class Todos extends React.Component {
     }
     let activeButton = "btn custom-button"
     let disabledButton = "btn custom-button disabled"
+    const selectedTags = tags => console.log(tags);
+    
     return (
       <>
         <section className="jumbotron jumbotron-fluid text-center"  style={background}>
@@ -202,12 +241,17 @@ export default class Todos extends React.Component {
           </div>
         </section>
         <div className="py-5">
+         
           <main className="container">
-            <input 
-              placeholder="Search"
-              type="text"
-              size="10"
-            />
+            <div className="active-cyan-3 active-cyan-4 mb-4">
+              <input 
+                className="form-control" 
+                type="text" 
+                placeholder="Search for Tags" 
+                aria-label="Search"
+                onChange={this.handleSearch}
+              />
+            </div>
             <div className="text-right mb-3">
               <Link to="/todo" className="btn custom-button">
                 Create New Todo

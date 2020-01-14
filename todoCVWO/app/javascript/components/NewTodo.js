@@ -9,12 +9,20 @@ export default class NewTodo extends React.Component {
             details: "",
             deadline: "",
             urgency_point: 0,
-            done: false
+            done: false,
+            tags: []
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.stripHtmlEntities = this.stripHtmlEntities.bind(this)
         this.handleDateTime=this.handleDateTime.bind(this)
+        this.handleTags = this.handleTags.bind(this);
+    }
+    handleTags(e) {
+      var allTags = e.target.value;
+      var Tags = allTags.split(",");
+      this.setState({tags: Tags});
+
     }
     stripHtmlEntities(str) {
         return String(str)
@@ -36,7 +44,7 @@ export default class NewTodo extends React.Component {
         e.preventDefault();
       
         const url = "todos/create"
-        const { title,details,deadline,urgency_point,done} = this.state
+        const { title,details,deadline,urgency_point,done,tags} = this.state
      
         if(title.length === 0) return
         const body = {
@@ -44,7 +52,8 @@ export default class NewTodo extends React.Component {
             details: details.replace(/\n/g,"<br> <br>"),
             deadline,
             urgency_point,
-            done
+            done,
+            tags
         }
       
         //security purpose
@@ -107,6 +116,17 @@ export default class NewTodo extends React.Component {
                     className="form-control"
                     required
                     onChange={this.onChange} 
+                />
+              </div>
+              <div className="form-group">
+               <label htmlFor="todoTags">Tags</label>
+                <input
+                    type="text"
+                    name="tags"
+                    id="todoTags"
+                    className="form-control"
+                    required
+                    onChange={this.handleTags} 
                 />
               </div>
               <label htmlFor="todoDetails">Details</label>

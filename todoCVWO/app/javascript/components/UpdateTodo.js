@@ -10,12 +10,20 @@ export default class UpdateTodo extends React.Component {
             details:"",
             deadline:"",
             urgency_point:0,
-            done:false
+            done:false,
+            tags: []
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.stripHtmlEntities = this.stripHtmlEntities.bind(this)
         this.handleDateTime=this.handleDateTime.bind(this)
+        this.handleTags=this.handleTags.bind(this)
+    }
+    handleTags() {
+      var allTags = e.target.value;
+      var Tags = allTags.split(",");
+      this.setState({tags: Tags});
+
     }
     handleDateTime(e){
       this.setState({
@@ -39,7 +47,7 @@ export default class UpdateTodo extends React.Component {
         e.preventDefault();
         let id = this.props.match.params.id
         const url = `/update/${id}`
-        const { title,details,deadline,urgency_point,done} = this.state
+        const { title,details,deadline,urgency_point,done,tags} = this.state
      
         if(title.length === 0) return
         const body = {
@@ -47,7 +55,8 @@ export default class UpdateTodo extends React.Component {
             details: details.replace(/\n/g,"<br> <br>"),
             deadline,
             urgency_point,
-            done
+            done,
+            tags
         }
       
         //security purpose
@@ -86,7 +95,8 @@ export default class UpdateTodo extends React.Component {
                 details: response.details,
                 deadline: response.deadline,
                 urgency_point: response.urgency_point,
-                done: response.done})
+                done: response.done,
+                tags: response.tags})
             }))
             .catch(error=>console.log(error.message))
             console.log(this.state)
@@ -136,6 +146,18 @@ export default class UpdateTodo extends React.Component {
                     className="form-control"
                     required
                     onChange={this.onChange} 
+                />
+              </div>
+              <div className="form-group">
+               <label htmlFor="todoTags">Tags</label>
+                <input
+                    type="text"
+                    name="tags"
+                    id="todoTags"
+                    className="form-control"
+                    defaultValue={this.state.tags.toString()}
+                    required
+                    onChange={this.handleTags} 
                 />
               </div>
               <label htmlFor="todoDetails">Details</label>
