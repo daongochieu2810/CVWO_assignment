@@ -26,6 +26,8 @@ export default class UpdateTodo extends React.Component {
 
     }
     handleDateTime(e){
+      let date = new Date(e)
+      console.log("this is date from update " +date)
       this.setState({
         deadline: e
       })

@@ -17,6 +17,17 @@ export default class Todo extends React.Component{
         }
         this.deleteTodo = this.deleteTodo.bind(this)
         this.addHtmlEntities = this.addHtmlEntities.bind(this)
+        this.getDeadline=this.getDeadline.bind(this)
+    }
+    getDeadline(newDate) {
+        let separator="-";
+        let date = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        let hours = newDate.getHours();
+        let minutes = newDate.getMinutes();
+      
+      return `${hours}${":"}${minutes<10 ? `0${minutes}`:`${minutes}`}${" "}${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
     }
     deleteTodo() {
         const {
@@ -71,7 +82,8 @@ export default class Todo extends React.Component{
     }
     render() {
     const { todo } = this.state;
-    var date = moment(todo.deadline).format('HH:MM:SS DD-MM-YYYY');
+    var date = new Date(Date.parse(todo.deadline));
+    date = this.getDeadline(date);
     
     
     const todoDetails = this.addHtmlEntities(todo.details);
@@ -118,6 +130,11 @@ export default class Todo extends React.Component{
               <button type="button" className="btn btn-danger" onClick={this.deleteTodo}>
                 Delete Todo
               </button>
+            </div>
+            <div>
+            <Link to={`/update/${this.props.match.params.id}`} className="btn btn-link">
+            Edit Todo
+            </Link>
             </div>
           </div>
           <Link to="/todos" className="btn btn-link">

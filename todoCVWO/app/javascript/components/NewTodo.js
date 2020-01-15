@@ -31,8 +31,10 @@ export default class NewTodo extends React.Component {
         // < and > are special characters
     }
     handleDateTime(e){
+      let date = new Date(e)
+      console.log("this is new date "+date)
       this.setState({
-        deadline: e
+        deadline: date
       })
     }
     onChange(e) {
