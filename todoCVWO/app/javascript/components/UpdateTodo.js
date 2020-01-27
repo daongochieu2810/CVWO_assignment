@@ -11,7 +11,8 @@ export default class UpdateTodo extends React.Component {
             deadline:"",
             urgency_point:0,
             done:false,
-            tags: []
+            tags: [],
+            userID: 0,
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)

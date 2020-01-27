@@ -12,7 +12,8 @@ export default class Todo extends React.Component{
                 urgency_point: 0,
                 deadline: "",
                 done: false,
-                tags: []
+                tags: [],
+                userID: props.user_id
             }
         }
         this.deleteTodo = this.deleteTodo.bind(this)

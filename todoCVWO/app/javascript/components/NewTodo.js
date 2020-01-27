@@ -10,7 +10,8 @@ export default class NewTodo extends React.Component {
             deadline: "",
             urgency_point: 0,
             done: false,
-            tags: []
+            tags: [],
+            userID: props.user_id,
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -46,7 +47,7 @@ export default class NewTodo extends React.Component {
         e.preventDefault();
       
         const url = "todos/create"
-        const { title,details,deadline,urgency_point,done,tags} = this.state
+        const { title,details,deadline,urgency_point,done,tags,userID} = this.state
      
         if(title.length === 0) return
         const body = {
@@ -55,7 +56,8 @@ export default class NewTodo extends React.Component {
             deadline,
             urgency_point,
             done,
-            tags
+            tags,
+            userID
         }
       
         //security purpose

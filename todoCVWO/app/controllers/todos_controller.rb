@@ -36,7 +36,7 @@ class TodosController < ApplicationController
   end
 
   def todo_params
-    params.permit(:title,:urgency_point,:deadline,:details,:done,{tags: []})
+    params.permit(:title,:urgency_point,:deadline,:details,:done,{tags: []},:userID)
   end
   
   def todo

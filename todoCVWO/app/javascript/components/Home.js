@@ -11,7 +11,12 @@ const background = {
     }
 
 
-export default () => (
+export default class Homepage extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render(){
+  return (
   <div>
   <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center " style={background}>
     <div className="jumbotron jumbotron-fluid bg-transparent position">
@@ -21,6 +26,7 @@ export default () => (
             Schedule things more efficiently
         </p>
         <hr className="my-4" />
+        { this.props.loggedInStatus ?
         <Link
           to="/todos"
           className="btn btn-lg custom-button"
@@ -28,9 +34,19 @@ export default () => (
         >
            Get Started
         </Link>
+        :
+        <Link
+          to="/login"
+          className="btn btn-lg custom-button"
+          role="button"
+        >
+           Get Started
+        </Link>
+        }
       </div>
     </div>
   </div>
   
-  </div>
-);
+  </div>)
+}
+}

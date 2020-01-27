@@ -8,7 +8,8 @@ export default class Todos extends React.Component {
         super(props)
         this.state = {
             todos: [],
-            filtered: []
+            filtered: [],
+            userID: props.user_id
         }
         this.clearList = this.clearList.bind(this)
         this.checkDone = this.checkDone.bind(this)
@@ -164,6 +165,7 @@ export default class Todos extends React.Component {
     }
   
     componentDidMount() {
+        var id = this.state.userID
         const url = "todos/index"
         fetch(url)
             .then(response => {
@@ -173,10 +175,16 @@ export default class Todos extends React.Component {
                 throw new Error("Network response was not ok")
             })
             .then(response=> this.setState({
-              todos: response,
-              filtered: response
+              todos: response.filter( function(todo) {
+                return todo.userID===id
+              }
+              ),
+              filtered: response.filter( function(todo) {
+                return todo.userID===id
+              }
+              )
               }))
-            .catch(()=>this.props.history.push("/"))
+            .catch(error=>console.log(error.message))
      
            
     }   
