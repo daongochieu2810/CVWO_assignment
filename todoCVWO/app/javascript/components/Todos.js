@@ -214,7 +214,6 @@ export default class Todos extends React.Component {
         var deadline = new Date(Date.parse(todo.deadline))
         var now = new Date()
         var date = this.getDeadlineDate(deadline)//to show
-        
         var createTime = moment(todo.created_at).format("HH:MM DD-MM-YYYY")
         var ms = moment(now,"YYYY-MM-DDTHH:mm:ss.sss").diff(moment(deadline,"YYYY-MM-DDTHH:mm:ss.sss"));
         var d = moment.duration(ms);
@@ -230,14 +229,18 @@ export default class Todos extends React.Component {
         if(todo.urgency_point>=10 && !todo.done) theme = 'card-body bg-danger text-white'
         else if(todo.urgency_point>=5 && todo.urgency_point<10 && !todo.done) theme = 'card-body bg-primary text-white'
         else if(todo.done) theme="card-body text-white bg-success"
+        const style = {
+          height: "350px",
+          width: "370px"
+        }
         return(
       <div key={index} className="col-md-6 col-lg-4">
-        <div className="card mb-4">
+        <div className="card mb-4" style={style}>
          
           <div className={theme}>
             <h5 className="card-title">{todo.title.length <=30 ? todo.title : this.modifyTitle(todo.title)}</h5>
             <h6 className="card-text">Deadline: {date}</h6>
-            {minutesDiff>0 ? <h6 className="card-text">Time left: {daysLeft>0 ? daysLeft +" day(s) " : ""} {hoursLeft>0 ? hoursLeft + " hour(s) left" :""} {minutesLeft>0  ? minutesLeft+" minute(s) left": ""}</h6> : <h6 className="card-text">Deadline has already passed!</h6>}
+            {minutesDiff>0 ? <h6 className="card-text">Time left: {daysLeft>0 ? daysLeft +" day(s) " : ""} {hoursLeft>0 ? hoursLeft + " hour(s) " :""} {minutesLeft>0  ? minutesLeft+" minute(s) ": ""} left</h6> : <h6 className="card-text">Deadline has already passed!</h6>}
             <h6 className="card-text">Tags: {todo.tags.map((tag,index) =><span key={index} className="badge badge-info ml-2">{tag}</span>)}</h6>
             <div className="dropdown">
               <button className="btn custom-button btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -333,7 +336,7 @@ export default class Todos extends React.Component {
               className="dropdown-item card-text"
               onClick={this.handleSort}
               value="urgency_point"
-              >Urgency Point (Default)
+              >Urgency Point (Decreasing)
              </button>
               <button 
               className="dropdown-item card-text"

@@ -27,8 +27,14 @@ class Login extends React.Component {
             email: email,
             password: password
         }
-        axios.post('/login', {user}, {withCredentials: true})
+        axios.post('/login', {user}, {
+            withCredentials: true,
+            credentials: 'include',
+            sameSite: 'none'
+
+        })
         .then(response => {
+            console.log(response)
             if(response.data.logged_in) {
                 this.props.handleLogin(response.data)
                 this.redirect()
@@ -59,9 +65,12 @@ class Login extends React.Component {
     }
     render() {
         const styling = {
+            position: "relative",
             width: "500px",
             height: "500px",
-            margin: "90px 0px 0px 500px"
+            left: "2%",
+            top: "50px"
+            //margin: "90px 0px 0px 500px"
         }
         const {username,email,password} = this.state
         return(

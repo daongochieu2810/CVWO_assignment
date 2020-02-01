@@ -10,14 +10,15 @@ import NewTodo from "./NewTodo";
 import UpdateTodo from "./UpdateTodo";
 import Login from '../UserAuth/Login';
 import Signup from '../UserAuth/Signup';
+import axios from 'axios';
+import CalendarPage from './CalendarPage';
 import history from './history';
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state={
             isLoggedIn: false,
-            user: {},
-            navbarOpen: false
+            user: {}
         }
     }
     componentDidMount() {
@@ -25,22 +26,23 @@ class App extends React.Component {
         
     }
     
-    handleNavbar = () => {
-        this.setState({ navbarOpen: !this.state.navbarOpen });
-    }
-
-
     loginStatus = () => {
-        const url='/logged_in'
-        fetch(url)
-        .then(response => {
-            if(response.isLoggedIn) {
-                this.handleLogin(response)
-            }
-            else {
-                this.handleLogout()
-            }
-        })
+       fetch("/logged_in")
+       .then(response=>{
+           if(response.ok) {
+               return response.json()
+           }
+           throw new Error("cannot get logged in info")
+       })
+       .then(response =>{
+           if(response.logged_in) {
+               this.handleLogin(response)
+           }
+           else {
+               this.handleLogout()
+           }
+       }
+       )
         .catch(error=>console.log('api errors:',error))
     }
     handleLogin = (data) => {
@@ -48,7 +50,6 @@ class App extends React.Component {
             isLoggedIn: true,
             user: data.user
         })
-        console.log(this.state.user.id)
     }
     handleLogout = () => {
         this.setState({
@@ -73,9 +74,31 @@ class App extends React.Component {
       <Route 
         exact path='/todos' 
         render={props => (
+            this.state.isLoggedIn ?
             <Todos {...props} 
                     user_id={this.state.user.id}
             />
+            :
+            <Login {...props}
+                    loggedInStatus={this.state.isLoggedIn}
+                    handleLogin={this.handleLogin} 
+            />
+        )}
+    />
+       <Route 
+        exact path='/calendar' 
+        render={props => (
+            this.state.isLoggedIn ?
+            <CalendarPage
+                {...props}
+                user_id={this.state.user.id} 
+            />:
+            <Login
+                {...props}
+                loggedInStatus={this.state.isLoggedIn}
+                handleLogin={this.handleLogin}
+            />
+            
         )}
     />
        <Route 

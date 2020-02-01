@@ -21,6 +21,7 @@ export default class NavBar extends React.Component {
         .then(response => {
             this.props.handleLogout()
             history.push('/')
+            
         })
         .catch(error=>console.log(error))
     }
@@ -47,6 +48,10 @@ export default class NavBar extends React.Component {
       
       <li className="nav-item">
         <Link className="nav-link" to="/todos">Show all Todos</Link>
+      </li>
+
+      <li className="nav-item">
+        <Link className="nav-link" to="/calendar">Calendar</Link>
       </li>
       </>:
       null

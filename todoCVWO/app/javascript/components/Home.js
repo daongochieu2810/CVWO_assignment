@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Home from "./home.png";
+import BG from "./background2.png";
 import styled from 'styled-components';
 
 
 const background = {
-      width: "100%",
-      height: "100%",
-      backgroundImage: `url(${Home})`
+      width: "1000px",
+      height: "1000px",
+      backgroundImage: `url(${BG})`
     }
 
 
@@ -16,11 +16,16 @@ export default class Homepage extends React.Component {
     super(props)
   }
   render(){
+    const style = {
+            position: "relative",
+            left: "-80%",
+            top: "50%"
+    }
   return (
   <div>
   <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center " style={background}>
-    <div className="jumbotron jumbotron-fluid bg-transparent position">
-      <div className="container secondary-color">
+    <div className="jumbotron jumbotron-fluid bg-transparent ">
+      <div className="container secondary-color" style={style}>
         <h1 className="display-4">Todo App</h1>
         <p className="lead">
             Schedule things more efficiently

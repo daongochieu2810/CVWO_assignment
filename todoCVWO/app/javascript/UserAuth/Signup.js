@@ -27,7 +27,11 @@ class Signup extends React.Component {
             password: password,
             password_confirmation: password_confirmation
         }
-        axios.post('/users', {user}, {withCredentials: true})
+        axios.post('/users', {user}, {
+            withCredentials: true,
+            credentials: 'include',
+            sameSite: 'none'
+        })
         .then(response => {
             if(response.data.status === 'created') {
                 this.props.handleLogin(response.data)
@@ -63,9 +67,11 @@ class Signup extends React.Component {
     render() {
         const {username,email,password,password_confirmation} = this.state
         const styling = {
+            position: "relative",
             width: "500px",
             height: "500px",
-            margin: "90px 0px 0px 500px"
+            left: "2%",
+            top: "50px"
         }
         return(
             <div className='container bg-dark' style={styling}>

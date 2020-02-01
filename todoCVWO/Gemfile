@@ -53,3 +53,5 @@ gem "react-rails", "~> 2.6"
 
 gem "rack-cors"
 gem "bcrypt"
+
+gem "activerecord-session_store"

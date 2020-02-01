@@ -1,8 +1,6 @@
 class SessionsController < ApplicationController
     def create 
         @user = User.find_by(email: session_params[:email])
-        test = @user.id
-        puts test.inspect
         if @user && @user.authenticate(session_params[:password])
             login!
             render json: {
@@ -19,8 +17,6 @@ class SessionsController < ApplicationController
     
     def is_logged_in?
         if logged_in? && current_user
-            test = current_user.id
-            puts test.inspect
             render json: {
                 logged_in: true,
                 user: current_user
